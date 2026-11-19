@@ -17,8 +17,9 @@
         <PackageReference Include="Avalonia" Version="12.1.6" ExcludeAssets="compile"/>
         <!-- Avalonia 12 元包不再携带 Skia 后端，显式引用（连带 SkiaSharp 3.119.4/HarfBuzzSharp 8.3.1.3 及 musl natives） -->
         <PackageReference Include="Avalonia.Skia" Version="12.1.6"/>
-        <!-- Avalonia 12: UseSkia 后必须 UseHarfBuzz（shaper 与渲染解耦） -->
+        <!-- Avalonia 12: UseSkia 后必须 UseHarfBuzz（shaper 与渲染解耦）；FluentTheme 默认 Inter 复合字体，需 WithInterFont -->
         <PackageReference Include="Avalonia.HarfBuzz" Version="12.1.6"/>
+        <PackageReference Include="Avalonia.Fonts.Inter" Version="12.1.6"/>
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="all"/>
         <PackageReference Include="Silk.NET.OpenGLES" Version="2.22.0"/>
         <PackageReference Include="StbImageWriteSharp" Version="1.16.7"/>

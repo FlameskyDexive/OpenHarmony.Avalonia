@@ -188,7 +188,8 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
         try
         {
             RenderTimer?.Render();
-            Paint?.Invoke(new Rect(0, 0, Size.Width, Size.Height));
+            // Avalonia 12: compositor 由 render loop（IRenderLoop←我们的手动泵 timer）自行绘制并提交；
+            // 在帧回调线程直调 Paint 会与渲染线程同步互等（死锁→vsync 超时→拖垮系统合成器），不再手动触发。
             OpenHarmonyPlatformThreading?.Tick();
         }
         catch (Exception e)

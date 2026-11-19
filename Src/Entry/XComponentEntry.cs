@@ -13,6 +13,8 @@ public static unsafe class XComponentEntry
 {
     public static Dictionary<IntPtr, XComponent> XComponents = [];
 
+    private static long _frameProbe;
+
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
     public static void OnSurfaceCreated(OH_NativeXComponent* component, void* window)
     {
@@ -45,6 +47,9 @@ public static unsafe class XComponentEntry
     {
         try
         {
+            _frameProbe++;
+            if (_frameProbe % 60 == 1)
+                Hilog.OH_LOG_DEBUG(LogType.LOG_APP, "csharp", $"frame#{_frameProbe} OnSurfaceRendered");
             if (XComponents.TryGetValue((nint)component, out var xComponent) == false)
                 return;
             xComponent.OnSurfaceRendered(timestamp, targetTimestamp);
