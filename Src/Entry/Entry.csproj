@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -19,11 +19,15 @@
     </ItemGroup>
 
     <Import Project="../../ThirdParty/PublishAotCross/src/OpenHarmony.NET.PublishAotCross.targets"/>
-    <Import Project="../../ThirdParty/OpenHarmony.NET.Runtime/runtime.targets"/>
+    <!-- net9: 使用 OpenHarmony 修补版 ILCompiler(真机 seccomp/GC 补丁); net10: 走 stock musl 包 -->
+    <Import Project="../../ThirdParty/OpenHarmony.NET.Runtime/runtime.targets" Condition="'$(TargetFramework)' == 'net9.0'"/>
 
     <ItemGroup>
         <NativeSharedLibrary Include="runtimes/x86_64/*" Condition="'$(RuntimeIdentifier)' == 'linux-musl-x64'"/>
         <NativeSharedLibrary Include="runtimes/arm64-v8a/*" Condition="'$(RuntimeIdentifier)' == 'linux-musl-arm64'"/>
+        <!-- net10: stock musl ILCompiler 包不带 ICU/OpenSSL 二进制（native/ 仅源码），沿用 vendored musl 构建 -->
+        <NativeSharedLibrary Include="../../ThirdParty/OpenHarmony.NET.Runtime/runtime.linux-musl-x64.microsoft.dotnet.ilcompiler/9.0.0/native/*.so*" Condition="'$(TargetFramework)' != 'net9.0' and '$(RuntimeIdentifier)' == 'linux-musl-x64'"/>
+        <NativeSharedLibrary Include="../../ThirdParty/OpenHarmony.NET.Runtime/runtime.linux-musl-arm64.microsoft.dotnet.ilcompiler/9.0.0/native/*.so*" Condition="'$(TargetFramework)' != 'net9.0' and '$(RuntimeIdentifier)' == 'linux-musl-arm64'"/>
     </ItemGroup>
 
     <Target Name="CopyNativeLibs" BeforeTargets="Publish">

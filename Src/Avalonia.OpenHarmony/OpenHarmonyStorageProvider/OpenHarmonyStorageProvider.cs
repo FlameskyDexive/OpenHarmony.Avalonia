@@ -35,6 +35,14 @@ public class OpenHarmonyStorageProvider : IStorageProvider
         });
     }
 
+    public Task<SaveFilePickerResult> SaveFilePickerWithResultAsync(FilePickerSaveOptions options)
+    {
+        return Task.Run(async () => new SaveFilePickerResult
+        {
+            File = await SaveFilePickerAsync(options),
+        });
+    }
+
     public Task<IReadOnlyList<IStorageFolder>> OpenFolderPickerAsync(FolderPickerOpenOptions options)
     {
         if (_result is not null) return Task.FromResult<IReadOnlyList<IStorageFolder>>([]);

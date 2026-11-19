@@ -33,4 +33,16 @@ public class OpenHarmonyStorageBookmarkFolder : OpenHarmonyStorageBookmarkItemBa
     {
         throw new NotSupportedException("你无权对用户文件执行此操作。");
     }
+
+    [Obsolete("你无权对用户文件执行此操作。")]
+    public Task<IStorageFile?> GetFileAsync(string name)
+    {
+        throw new NotSupportedException("你无权对用户文件执行此操作。");
+    }
+
+    [Obsolete("你无权对用户文件执行此操作。")]
+    public Task<IStorageFolder?> GetFolderAsync(string name)
+    {
+        throw new NotSupportedException("你无权对用户文件执行此操作。");
+    }
 }

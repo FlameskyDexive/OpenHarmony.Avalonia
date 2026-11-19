@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <AssemblyTitle>AvaloniaOpenHarmony</AssemblyTitle>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -13,7 +13,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="11.2.8"/>
+        <!-- 11.3 起 ref 程序集的平台接口不再可由用户代码实现，改为直接引用 lib 实现程序集编译 -->
+        <PackageReference Include="Avalonia" Version="11.3.23" ExcludeAssets="compile"/>
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="all"/>
         <PackageReference Include="Silk.NET.OpenGLES" Version="2.22.0"/>
         <PackageReference Include="StbImageWriteSharp" Version="1.16.7"/>
@@ -24,6 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Reference Include="$(NuGetPackageRoot)avalonia\11.3.23\lib\net8.0\*.dll"/>
         <Reference Include="Avalonia.Skia">
             <HintPath>libs\Avalonia.Skia\Avalonia.Skia.dll</HintPath>
         </Reference>
@@ -34,15 +36,6 @@
             <HintPath>libs\SkiaSharp\SkiaSharp.dll</HintPath>
         </Reference>
     </ItemGroup>
-
-
-    <Target Name="AvaloniaOpenHarmonyReferenceAvaloniaRuntimeAssemblies" AfterTargets="ResolvePackageAssets" BeforeTargets="ResolveLockFileReferences">
-        <ItemGroup>
-            <ResolvedCompileFileDefinitions Include="@(ResolvedCompileFileDefinitions-&gt;'%(Identity)'-&gt;Replace('/ref/', '/lib/')-&gt;Replace('\ref\', '\lib\'))" HintPath="$([System.String]::new('%(HintPath)').Replace('/ref/', '/lib/').Replace('\ref\', '\lib\'))" PathInPackage="lib/$([System.String]::new('%(PathInPackage)').Substring(4))" Condition="$([System.String]::new('%(PathInPackage)').StartsWith('ref/$(TargetFramework)/Avalonia'))"/>
-            <ResolvedCompileFileDefinitions Remove="@(ResolvedCompileFileDefinitions)" Condition="$([System.String]::new('%(PathInPackage)').StartsWith('ref/$(TargetFramework)/Avalonia'))"/>
-        </ItemGroup>
-    </Target>
-
 
 </Project>
 

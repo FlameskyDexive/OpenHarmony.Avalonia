@@ -34,4 +34,29 @@ public class ClipboardImpl : IClipboard
     {
         throw new NotImplementedException();
     }
+
+    public Task SetDataAsync(IAsyncDataTransfer? data)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task FlushAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IAsyncDataTransfer?> TryGetDataAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IDataObject?> TryGetInProcessDataObjectAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IAsyncDataTransfer?> TryGetInProcessDataAsync()
+    {
+        throw new NotImplementedException();
+    }
 }
