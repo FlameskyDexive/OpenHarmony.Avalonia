@@ -7,7 +7,8 @@ public static class OpenHarmonyApplicationExtensions
         return builder
             .UseStandardRuntimePlatformSubsystem()
             .UseWindowingSubsystem(OpenHarmonyPlatform.Initialize, "OpenHarmony")
-            .UseSkia();
+            .UseSkia()
+            .UseHarfBuzz();
     }
 
     public static AppBuilder UseSoftwareRenderer(this AppBuilder builder)

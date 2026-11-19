@@ -19,9 +19,7 @@ public class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            // Line below is needed to remove Avalonia data validation.
-            // Without this line you will get duplicate validations from both Avalonia and CT
-            BindingPlugins.DataValidators.RemoveAt(0);
+            // Avalonia 12: BindingPlugins 已不对外暴露（数据验证机制重构），CommunityToolkit.Mvvm 场景无需手动去重
             desktop.MainWindow = new MainWindow
             {
                 DataContext = new MainViewModel()

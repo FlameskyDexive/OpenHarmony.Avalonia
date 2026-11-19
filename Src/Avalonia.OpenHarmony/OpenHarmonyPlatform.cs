@@ -5,6 +5,7 @@ using Avalonia.OpenGL.Egl;
 using Avalonia.Platform;
 using Avalonia.Rendering;
 using Avalonia.Rendering.Composition;
+using Avalonia.Threading;
 
 namespace Avalonia.OpenHarmony;
 
@@ -22,6 +23,10 @@ public class OpenHarmonyPlatform
             DefaultFamilyName = "HarmonyOS Sans SC",
         };
 
+        // Avalonia 12: 显式初始化 Dispatcher（legacy IPlatformThreadingInterface 不再被自动适配）
+        var threading = new OpenHarmonyPlatformThreading();
+        Dispatcher.InitializeUIThreadDispatcher(threading);
+
         AvaloniaLocator.CurrentMutable
             .Bind<PlatformHotkeyConfiguration>().ToSingleton<PlatformHotkeyConfiguration>()
             .Bind<FontManagerOptions>().ToConstant(fontManagerOptions)
@@ -30,9 +35,15 @@ public class OpenHarmonyPlatform
             .Bind<IRuntimePlatform>().ToSingleton<OpenHarmonyRuntimePlatform>()
             .Bind<IRenderTimer>().ToSingleton<OpenHarmonyRenderTimer>()
             .Bind<ICursorFactory>().ToSingleton<CursorFactory>()
-            .Bind<IPlatformThreadingInterface>().ToSingleton<OpenHarmonyPlatformThreading>()
+            .Bind<OpenHarmonyPlatformThreading>().ToConstant(threading)
             .Bind<IKeyboardDevice>().ToSingleton<OpenHarmonyKeyboardDevice>()
             .Bind<IPlatformSettings>().ToSingleton<OpenHarmonyPlatformSettings>();
+
+        // Avalonia 12: Compositor 从 locator 解析 IRenderLoop，缺失则渲染循环不跑（黑屏）。
+        // 用我们的手动泵 timer（XComponent 帧回调驱动）组装 DefaultRenderLoop。
+        AvaloniaLocator.CurrentMutable
+            .Bind<IRenderLoop>()
+            .ToConstant(RenderLoop.FromTimer(AvaloniaLocator.Current.GetRequiredService<IRenderTimer>()));
 
         var platformGraphics = InitializeGraphics(options);
         if (platformGraphics is not null)

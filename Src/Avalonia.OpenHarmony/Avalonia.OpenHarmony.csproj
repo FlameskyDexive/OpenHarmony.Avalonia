@@ -14,7 +14,11 @@
 
     <ItemGroup>
         <!-- 11.3 起 ref 程序集的平台接口不再可由用户代码实现，改为直接引用 lib 实现程序集编译 -->
-        <PackageReference Include="Avalonia" Version="11.3.23" ExcludeAssets="compile"/>
+        <PackageReference Include="Avalonia" Version="12.1.6" ExcludeAssets="compile"/>
+        <!-- Avalonia 12 元包不再携带 Skia 后端，显式引用（连带 SkiaSharp 3.119.4/HarfBuzzSharp 8.3.1.3 及 musl natives） -->
+        <PackageReference Include="Avalonia.Skia" Version="12.1.6"/>
+        <!-- Avalonia 12: UseSkia 后必须 UseHarfBuzz（shaper 与渲染解耦） -->
+        <PackageReference Include="Avalonia.HarfBuzz" Version="12.1.6"/>
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="all"/>
         <PackageReference Include="Silk.NET.OpenGLES" Version="2.22.0"/>
         <PackageReference Include="StbImageWriteSharp" Version="1.16.7"/>
@@ -25,7 +29,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Reference Include="$(NuGetPackageRoot)avalonia\11.3.23\lib\net8.0\*.dll"/>
+        <Reference Include="$(NuGetPackageRoot)avalonia\12.1.6\lib\net10.0\*.dll"/>
         <Reference Include="Avalonia.Skia">
             <HintPath>libs\Avalonia.Skia\Avalonia.Skia.dll</HintPath>
         </Reference>

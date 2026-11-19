@@ -9,7 +9,8 @@ public class OpenHarmonyRenderTimer : IRenderTimer
     private static readonly Stopwatch s_sw = Stopwatch.StartNew();
     public bool RunsInBackground => false;
 
-    public event Action<TimeSpan>? Tick;
+    // Avalonia 12: IRenderTimer.Tick 由事件改为可空属性
+    public Action<TimeSpan>? Tick { get; set; }
 
     public void Render()
     {

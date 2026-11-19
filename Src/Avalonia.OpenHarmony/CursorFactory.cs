@@ -1,11 +1,12 @@
 ﻿using Avalonia.Input;
+using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 
 namespace Avalonia.OpenHarmony;
 
 public class CursorFactory : ICursorFactory
 {
-    public ICursorImpl CreateCursor(IBitmapImpl cursor, PixelPoint hotSpot)
+    public ICursorImpl CreateCursor(Bitmap cursor, PixelPoint hotSpot)
     {
         return CursorImpl.ZeroCursor;
     }

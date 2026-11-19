@@ -10,31 +10,6 @@ public class ClipboardImpl : IClipboard
         throw new NotImplementedException();
     }
 
-    public Task<object?> GetDataAsync(string format)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<string[]> GetFormatsAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<string?> GetTextAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task SetDataObjectAsync(IDataObject data)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task SetTextAsync(string? text)
-    {
-        throw new NotImplementedException();
-    }
-
     public Task SetDataAsync(IAsyncDataTransfer? data)
     {
         throw new NotImplementedException();
@@ -46,11 +21,6 @@ public class ClipboardImpl : IClipboard
     }
 
     public Task<IAsyncDataTransfer?> TryGetDataAsync()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<IDataObject?> TryGetInProcessDataObjectAsync()
     {
         throw new NotImplementedException();
     }

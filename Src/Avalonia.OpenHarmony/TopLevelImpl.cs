@@ -12,6 +12,7 @@ using Avalonia.OpenGL.Egl;
 using Avalonia.OpenGL.Surfaces;
 using Avalonia.Platform;
 using Avalonia.Platform.Storage;
+using Avalonia.Platform.Surfaces;
 using Avalonia.Rendering;
 using Avalonia.Rendering.Composition;
 
@@ -68,8 +69,7 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
         }
 
         RenderTimer = AvaloniaLocator.Current.GetService<IRenderTimer>() as OpenHarmonyRenderTimer;
-        OpenHarmonyPlatformThreading =
-            AvaloniaLocator.Current.GetService<IPlatformThreadingInterface>() as OpenHarmonyPlatformThreading;
+        OpenHarmonyPlatformThreading = AvaloniaLocator.Current.GetService<OpenHarmonyPlatformThreading>();
         _textInputMethod = new OpenHarmonyInputMethod(this);
         _openHarmonyInputPane = new OpenHarmonyInputPane(this);
         _openHarmonyStorageProvider = new OpenHarmonyStorageProvider();
@@ -97,7 +97,7 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
 
     public double RenderScaling => Scaling;
 
-    public IEnumerable<object> Surfaces { get; }
+    public IPlatformRenderSurface[] Surfaces { get; }
 
     public Action<RawInputEventArgs>? Input { get; set; }
     public Action<Rect>? Paint { get; set; }
@@ -160,7 +160,7 @@ public class TopLevelImpl : ITopLevelImpl, EglGlPlatformSurface.IEglWindowGlPlat
         // todo
     }
 
-    public void SetFrameThemeVariant(PlatformThemeVariant themeVariant)
+    public void SetFrameThemeVariant(PlatformThemeVariant? themeVariant)
     {
         // todo
     }

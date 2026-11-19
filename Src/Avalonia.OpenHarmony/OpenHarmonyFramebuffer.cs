@@ -27,6 +27,8 @@ public class OpenHarmonyFramebuffer : ILockedFramebuffer
 
     public PixelFormat Format { get; }
 
+    public AlphaFormat AlphaFormat => AlphaFormat.Premul;
+
     public void Dispose()
     {
     }
