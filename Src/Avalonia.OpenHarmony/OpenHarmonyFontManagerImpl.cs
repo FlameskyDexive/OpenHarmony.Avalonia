@@ -31,9 +31,14 @@ public class TestE : EmbeddedFontCollection
                     Call(glyphTypeface);
                 }
             }
+            catch (UnauthorizedAccessException)
+            {
+                // 鸿蒙应用沙箱下个别系统字体（如 Roboto-Regular.ttf）无读权限，静默跳过即可，可读字体仍正常加载
+                OHDebugHelper.Debug($"跳过不可读的系统字体: {fontAsset}");
+            }
             catch (Exception e)
             {
-                OHDebugHelper.Error("我们无权访问这个字体。", e);
+                OHDebugHelper.Error("加载字体失败。", e);
             }
     }
 
