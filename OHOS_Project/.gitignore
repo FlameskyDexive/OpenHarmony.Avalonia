@@ -10,3 +10,5 @@
 /.clang-tidy
 **/.test
 /.appanalyzer
+# AOT 产物与本地 natives（构建时生成/拷贝）
+/entry/libs/
