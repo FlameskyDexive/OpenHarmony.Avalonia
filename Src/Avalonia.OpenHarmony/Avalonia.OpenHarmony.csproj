@@ -8,6 +8,15 @@
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
 
+    <!-- 按发布 RID 注入平台宏：模拟器(musl-x64)与真机(musl-arm64)产物各走各的代码路径。
+         桌面调试构建(无 RID)两个宏都不定义，走默认路径。 -->
+    <PropertyGroup Condition="'$(RuntimeIdentifier)' == 'linux-musl-x64'">
+        <DefineConstants>$(DefineConstants);OHOS_EMULATOR</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(RuntimeIdentifier)' == 'linux-musl-arm64'">
+        <DefineConstants>$(DefineConstants);OHOS_DEVICE</DefineConstants>
+    </PropertyGroup>
+
     <ItemGroup>
         <EmbeddedResource Include="Assets\*"></EmbeddedResource>
     </ItemGroup>

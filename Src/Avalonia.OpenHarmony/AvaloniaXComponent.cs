@@ -25,7 +25,17 @@ public class AvaloniaXComponent<TApp> : XComponent where TApp : Application, new
     private nint surface;
     public TopLevelImpl? TopLevelImpl;
 
-    public bool UseSoftRenderer = false;
+    public bool UseSoftRenderer =
+#if OHOS_EMULATOR
+        // 模拟器(DGLES GPU 半虚拟化): Avalonia 12 的 compositor GL 路径(EglPlatformGraphics)会拖垮系统合成器，
+        // 改走 11.3 时代已验证的软渲染+手工 EGL blit 管线
+        true;
+#elif OHOS_DEVICE
+        // 真机 GPU 直通走 compositor GL
+        false;
+#else
+        false;
+#endif
 
     public AvaloniaXComponent(nint XComponentHandle, nint WindowHandle) : base(XComponentHandle, WindowHandle)
     {
